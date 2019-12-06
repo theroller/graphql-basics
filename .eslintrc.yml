@@ -15,7 +15,6 @@ rules:
   linebreak-style:
     - error
     - unix
-  no-console: 1
   no-trailing-spaces:
     - error
   object-curly-spacing:
