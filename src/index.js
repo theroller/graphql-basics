@@ -1,37 +1,8 @@
 import { GraphQLServer } from 'graphql-yoga';
+import fs from 'fs';
 
-// Type Definitions (schema)
-const typeDefs = `
-    type Query {
-        id: ID!
-        name: String!
-        age: Int!
-        employed: Boolean!
-        gpa: Float
-    }
-`;
-
-
-// Resolvers
-const resolvers = {
-    Query: {
-        id() {
-            return 'abc-123';
-        },
-        name() {
-            return 'James';
-        },
-        age() {
-            return 27;
-        },
-        employed() {
-            return true;
-        },
-        gpa() {
-            return 3.01;
-        },
-    }
-};
+const typeDefs = fs.readFileSync('./src/graphql/schema.gql').toString();
+import resolvers from './graphql/resolvers';
 
 const server = new GraphQLServer({
     typeDefs,

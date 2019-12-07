@@ -19,10 +19,13 @@
     "nodemon": "^2.0.1"
   },
   "nodemonConfig": {
-    "ignore": ["test/*"],
+    "ignore": [
+      "test/*"
+    ],
     "execMap": {
       "js": "node -r esm"
     },
+    "ext": "gql,js,json",
     "watch": [
       "src"
     ],
