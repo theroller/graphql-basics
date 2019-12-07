@@ -1,5 +1,6 @@
 type Query {
-    add(a: Float!, b: Float!): Float!
+    add(numbers: [Float!]!): Float!
+    grades: [Int!]!
     greeting(name: String): String!
     me: User!
     post: Post!

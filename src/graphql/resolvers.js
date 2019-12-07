@@ -1,6 +1,9 @@
 const Query = {
     add(parent, args) {
-        return args.a + args.b;
+        return args.numbers.reduce((acc, val) => acc + val, 0);
+    },
+    grades() {
+        return [99, 35, 56];
     },
     greeting(parent, args) {
         if (args.name) {
