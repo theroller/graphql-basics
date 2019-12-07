@@ -1,9 +1,9 @@
 // demo data
 const comments = [
-    { id: 1, author: 2, text: 'it was a dark and stormy night' },
-    { id: 2, author: 2, text: 'frig yas all' },
-    { id: 3, author: 3, text: 'too much to do' },
-    { id: 4, author: 1, text: 'the sky was falling that night' },
+    { id: 1, author: 2, post: 4, text: 'it was a dark and stormy night' },
+    { id: 2, author: 2, post: 4, text: 'frig yas all' },
+    { id: 3, author: 3, post: 2, text: 'too much to do' },
+    { id: 4, author: 1, post: 1, text: 'the sky was falling that night' },
 ];
 const posts = [
     { id: 1, author: 1, published: true, title: 'doo wop', body: 'this is a body' },
@@ -47,20 +47,26 @@ const Comment = {
     author(parent) {
         return users.find(x => x.id === parent.author);
     },
+    post(parent) {
+        return posts.find(x => x.id === parent.post);
+    },
 };
 
 const Post = {
     author(parent) {
         return users.find(x => x.id === parent.author);
     },
+    comments(parent) {
+        return comments.filter(x => x.post === parent.id);
+    },
 };
 
 const User = {
     comments(parent) {
-        return comments.filter(comment => comment.author === parent.id);
+        return comments.filter(x => x.author === parent.id);
     },
     posts(parent) {
-        return posts.filter(post => post.author === parent.id);
+        return posts.filter(x => x.author === parent.id);
     },
 };
 
