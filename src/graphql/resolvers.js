@@ -1,4 +1,10 @@
 // demo data
+const comments = [
+    { id: 1, text: 'it was a dark and stormy night' },
+    { id: 2, text: 'frig yas all' },
+    { id: 3, text: 'too much to do' },
+    { id: 4, text: 'the sky was falling that night' },
+];
 const posts = [
     { id: 1, author: 1, published: true, title: 'doo wop', body: 'this is a body' },
     { id: 2, author: 3, published: false, title: 'foo bar', body: 'try me' },
@@ -12,6 +18,9 @@ const users = [
 ];
 
 const Query = {
+    comments() {
+        return comments;
+    },
     me() {
         return users[0];
     },
