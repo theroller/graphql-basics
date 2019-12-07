@@ -1,6 +1,7 @@
 type Comment {
     id: ID!
     text: String!
+    author: User!
 }
 
 type Post {
@@ -25,4 +26,5 @@ type User {
     email: String!
     age: Int
     posts: [Post!]!
+    comments: [Comment!]!
 }
