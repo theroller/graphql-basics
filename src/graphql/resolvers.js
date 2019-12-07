@@ -1,8 +1,9 @@
 // demo data
 const posts = [
     { id: 1, author: 1, published: true, title: 'doo wop', body: 'this is a body' },
-    { id: 2, author: 1, published: false, title: 'foo bar', body: 'try me' },
+    { id: 2, author: 3, published: false, title: 'foo bar', body: 'try me' },
     { id: 3, author: 3, published: true, title: 'kitty c', body: 'walk this way' },
+    { id: 4, author: 2, published: true, title: 'shrug', body: 'tbd' },
 ];
 const users = [
     { id: 1, name: 'james', email: 'james@gmail.com' },
@@ -39,5 +40,11 @@ const Post = {
     }
 };
 
-const resolvers = { Post, Query };
+const User = {
+    posts(parent) {
+        return posts.filter(post => post.author === parent.id);
+    }
+};
+
+const resolvers = { Post, Query, User };
 export { resolvers as default };
