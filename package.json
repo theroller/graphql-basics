@@ -13,7 +13,8 @@
     "babel-eslint": "^10.0.3",
     "eslint": "^6.7.2",
     "esm": "^3.2.25",
-    "graphql-yoga": "^1.18.3"
+    "graphql-yoga": "^1.18.3",
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.1"

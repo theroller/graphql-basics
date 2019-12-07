@@ -1,3 +1,5 @@
+import uuidv4 from 'uuid/v4';
+
 // demo data
 const comments = [
     { id: 1, author: 2, post: 4, text: 'it was a dark and stormy night' },
@@ -43,6 +45,25 @@ const Query = {
     },
 };
 
+const Mutation = {
+    createUser(parent, args) {
+        let user = users.find(x => x.email === args.email);
+        if (user) {
+            throw new Error('email taken');
+        }
+
+        user = {
+            id: uuidv4(),
+            name: args.name,
+            email: args.email,
+            age: args.age,
+        };
+        users.push(user);
+
+        return user;
+    },
+};
+
 const Comment = {
     author(parent) {
         return users.find(x => x.id === parent.author);
@@ -70,5 +91,5 @@ const User = {
     },
 };
 
-const resolvers = { Comment, Post, Query, User };
+const resolvers = { Comment, Mutation, Post, Query, User };
 export { resolvers as default };

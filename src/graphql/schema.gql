@@ -5,6 +5,10 @@ type Comment {
     post: Post!
 }
 
+type Mutation {
+    createUser(name: String!, email: String!, age: Int): User!
+}
+
 type Post {
     id: ID!
     title: String!
