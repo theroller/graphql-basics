@@ -1,9 +1,8 @@
 type Query {
-    add(numbers: [Float!]!): Float!
-    grades: [Int!]!
-    greeting(name: String): String!
     me: User!
     post: Post!
+    posts(query: String): [Post!]!
+    users(query: String): [User!]!
 }
 
 type User {

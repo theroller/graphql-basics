@@ -1,31 +1,35 @@
+// demo data
+const posts = [
+    { id: 1, published: true, title: 'doo wop', body: 'this is a body' },
+    { id: 2, published: false, title: 'foo bar', body: 'try me' },
+    { id: 3, published: true, title: 'kitty c', body: 'walk this way' },
+];
+const users = [
+    { id: 1, name: 'james', email: 'james@gmail.com' },
+    { id: 2, name: 'frank', email: 'frank@gmail.com' },
+    { id: 3, name: 'jillian', email: 'jillian@gmail.com' },
+];
+
 const Query = {
-    add(parent, args) {
-        return args.numbers.reduce((acc, val) => acc + val, 0);
-    },
-    grades() {
-        return [99, 35, 56];
-    },
-    greeting(parent, args) {
-        if (args.name) {
-            return `yo, ${args.name}!`;
-        }
-        return 'yo';
-    },
     me() {
-        return {
-            id: '123099',
-            name: 'Pete',
-            email: 'pete@gmail.com',
-            age: 44,
-        };
+        return users[0];
     },
     post() {
-        return {
-            id: '44459',
-            title: 'JZ',
-            body: 'lorem ipsum',
-            published: true,
-        };
+        return posts[0];
+    },
+    posts(parent, args) {
+        if (args.query) {
+            const re = new RegExp(args.query.toLowerCase());
+            return posts.filter(x => re.test(x.title.toLowerCase()) || re.test(x.body.toLowerCase()));
+        }
+        return posts;
+    },
+    users(parent, args) {
+        if (args.query) {
+            const re = new RegExp(args.query.toLowerCase());
+            return users.filter(x => re.test(x.name.toLowerCase()));
+        }
+        return users;
     },
 };
 
