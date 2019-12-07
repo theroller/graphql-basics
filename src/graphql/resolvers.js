@@ -1,8 +1,8 @@
 // demo data
 const posts = [
-    { id: 1, published: true, title: 'doo wop', body: 'this is a body' },
-    { id: 2, published: false, title: 'foo bar', body: 'try me' },
-    { id: 3, published: true, title: 'kitty c', body: 'walk this way' },
+    { id: 1, author: 1, published: true, title: 'doo wop', body: 'this is a body' },
+    { id: 2, author: 1, published: false, title: 'foo bar', body: 'try me' },
+    { id: 3, author: 3, published: true, title: 'kitty c', body: 'walk this way' },
 ];
 const users = [
     { id: 1, name: 'james', email: 'james@gmail.com' },
@@ -33,5 +33,11 @@ const Query = {
     },
 };
 
-const resolvers = { Query };
+const Post = {
+    author(parent) {
+        return users.find(x => x.id === parent.author);
+    }
+};
+
+const resolvers = { Post, Query };
 export { resolvers as default };
