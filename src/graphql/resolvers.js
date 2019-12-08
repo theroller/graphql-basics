@@ -56,12 +56,7 @@ const Mutation = {
             throw new Error('published post not found');
         }
 
-        const comment = {
-            id: uuidv4(),
-            text: args.text,
-            author: args.author,
-            post: args.post,
-        };
+        const comment = { id: uuidv4(), ...args };
         comments.push(comment);
 
         return comment;
@@ -72,13 +67,7 @@ const Mutation = {
             throw new Error('author not found');
         }
 
-        const post = {
-            id: uuidv4(),
-            title: args.title,
-            body: args.body,
-            published: args.published,
-            author: args.author,
-        };
+        const post = { id: uuidv4(), ...args };
         posts.push(post);
 
         return post;
@@ -89,12 +78,7 @@ const Mutation = {
             throw new Error('email taken');
         }
 
-        user = {
-            id: uuidv4(),
-            name: args.name,
-            email: args.email,
-            age: args.age,
-        };
+        user = { id: uuidv4(), ...args };
         users.push(user);
 
         return user;
