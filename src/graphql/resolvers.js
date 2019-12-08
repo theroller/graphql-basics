@@ -46,6 +46,43 @@ const Query = {
 };
 
 const Mutation = {
+    createComment(parent, args) {
+        const author = users.find(x => x.id == args.author);
+        if (!author) {
+            throw new Error('author not found');
+        }
+        const post = posts.find(x => x.id == args.post && x.published);
+        if (!post) {
+            throw new Error('published post not found');
+        }
+
+        const comment = {
+            id: uuidv4(),
+            text: args.text,
+            author: args.author,
+            post: args.post,
+        };
+        comments.push(comment);
+
+        return comment;
+    },
+    createPost(parent, args) {
+        const author = users.find(x => x.id == args.author);
+        if (!author) {
+            throw new Error('author not found');
+        }
+
+        const post = {
+            id: uuidv4(),
+            title: args.title,
+            body: args.body,
+            published: args.published,
+            author: args.author,
+        };
+        posts.push(post);
+
+        return post;
+    },
     createUser(parent, args) {
         let user = users.find(x => x.email === args.email);
         if (user) {
@@ -66,28 +103,28 @@ const Mutation = {
 
 const Comment = {
     author(parent) {
-        return users.find(x => x.id === parent.author);
+        return users.find(x => x.id == parent.author);
     },
     post(parent) {
-        return posts.find(x => x.id === parent.post);
+        return posts.find(x => x.id == parent.post);
     },
 };
 
 const Post = {
     author(parent) {
-        return users.find(x => x.id === parent.author);
+        return users.find(x => x.id == parent.author);
     },
     comments(parent) {
-        return comments.filter(x => x.post === parent.id);
+        return comments.filter(x => x.post == parent.id);
     },
 };
 
 const User = {
     comments(parent) {
-        return comments.filter(x => x.author === parent.id);
+        return comments.filter(x => x.author == parent.id);
     },
     posts(parent) {
-        return posts.filter(x => x.author === parent.id);
+        return posts.filter(x => x.author == parent.id);
     },
 };
 
