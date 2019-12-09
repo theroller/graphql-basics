@@ -1,8 +1,9 @@
-type Comment {
-    id: ID!
-    text: String!
-    author: User!
+type Query {
+    comments: [Comment!]!
+    me: User!
     post: Post!
+    posts(query: String): [Post!]!
+    users(query: String): [User!]!
 }
 
 type Mutation {
@@ -40,6 +41,13 @@ input UpdateUserInput {
     age: Int
 }
 
+type Comment {
+    id: ID!
+    text: String!
+    author: User!
+    post: Post!
+}
+
 type Post {
     id: ID!
     title: String!
@@ -47,14 +55,6 @@ type Post {
     published: Boolean!
     author: User!
     comments: [Comment!]!
-}
-
-type Query {
-    comments: [Comment!]!
-    me: User!
-    post: Post!
-    posts(query: String): [Post!]!
-    users(query: String): [User!]!
 }
 
 type User {
