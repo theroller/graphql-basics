@@ -1,31 +1,5 @@
 import uuidv4 from 'uuid/v4';
 
-const Query = {
-    comments(parent, args, { db }) {
-        return db.comments;
-    },
-    me(parent, args, { db }) {
-        return db.users[0];
-    },
-    post(parent, args, { db }) {
-        return db.posts[0];
-    },
-    posts(parent, args, { db }) {
-        if (args.query) {
-            const re = new RegExp(args.query.toLowerCase());
-            return db.posts.filter(x => re.test(x.title.toLowerCase()) || re.test(x.body.toLowerCase()));
-        }
-        return db.posts;
-    },
-    users(parent, args, { db }) {
-        if (args.query) {
-            const re = new RegExp(args.query.toLowerCase());
-            return db.users.filter(x => re.test(x.name.toLowerCase()));
-        }
-        return db.users;
-    },
-};
-
 const Mutation = {
     createComment(parent, args, { db }) {
         const author = db.users.find(user => user.id == args.data.author);
@@ -105,32 +79,4 @@ const Mutation = {
     },
 };
 
-const Comment = {
-    author(parent, args, { db }) {
-        return db.users.find(user => user.id == parent.author);
-    },
-    post(parent, args, { db }) {
-        return db.posts.find(post => post.id == parent.post);
-    },
-};
-
-const Post = {
-    author(parent, args, { db }) {
-        return db.users.find(user => user.id == parent.author);
-    },
-    comments(parent, args, { db }) {
-        return db.comments.filter(comment => comment.post == parent.id);
-    },
-};
-
-const User = {
-    comments(parent, args, { db }) {
-        return db.comments.filter(comment => comment.author == parent.id);
-    },
-    posts(parent, args, { db }) {
-        return db.posts.filter(post => post.author == parent.id);
-    },
-};
-
-const resolvers = { Comment, Mutation, Post, Query, User };
-export { resolvers as default };
+export { Mutation as default };
