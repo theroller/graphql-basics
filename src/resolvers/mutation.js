@@ -1,7 +1,7 @@
 import uuidv4 from 'uuid/v4';
 
 const Mutation = {
-    createComment(parent, args, { db }) {
+    createComment(parent, args, { db, pubsub }) {
         const author = db.users.find(user => user.id == args.data.author);
         if (!author) {
             throw new Error('author not found');
@@ -13,6 +13,8 @@ const Mutation = {
 
         const comment = { id: uuidv4(), ...args.data };
         db.comments.push(comment);
+
+        pubsub.publish(`comment-${args.data.post}`, { comment });
 
         return comment;
     },
