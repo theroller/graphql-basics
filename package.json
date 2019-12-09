@@ -27,7 +27,7 @@
     "execMap": {
       "js": "node -r esm"
     },
-    "ext": "gql,js,json",
+    "ext": "graphql,js,json",
     "watch": [
       "src"
     ],
