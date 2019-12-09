@@ -83,6 +83,24 @@ const Mutation = {
 
         return user;
     },
+    deleteComment(parent, args) {
+        const commentIndex = comments.findIndex(comment => comment.id == args.id);
+        if (commentIndex == -1) {
+            throw new Error(`comment id ${args.id} not found`);
+        }
+
+        return comments.splice(commentIndex, 1)[0];
+    },
+    deletePost(parent, args) {
+        const postIndex = posts.findIndex(post => post.id == args.id);
+        if (postIndex == -1) {
+            throw new Error(`post id ${args.id} not found`);
+        }
+
+        const deletedPost = posts.splice(postIndex, 1)[0];
+        comments = comments.filter(comment => comment.post != args.id);
+        return deletedPost;
+    },
     deleteUser(parent, args) {
         const userIndex = users.findIndex(user => user.id == args.id);
         if (userIndex == -1) {
