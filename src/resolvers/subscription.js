@@ -10,18 +10,6 @@ const Subscription = {
             return pubsub.asyncIterator(`comment-${postID}`);
         }
     },
-    count: {
-        subscribe(parent, args, { pubsub }) {
-            let count = 0;
-
-            setInterval(() => {
-                count++;
-                pubsub.publish('count', { count });
-            }, 1000);
-
-            return pubsub.asyncIterator('count');
-        }
-    },
     post: {
         subscribe(parent, args, { pubsub }) {
             return pubsub.asyncIterator('post');
