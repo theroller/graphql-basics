@@ -77,6 +77,26 @@ const Mutation = {
 
         return deletedUser;
     },
+    updatePost(parent, { id, data }, { db }) {
+        const post = db.posts.find(post => post.id == id);
+        if (!post) {
+            throw new Error(`post id ${id} not found`);
+        }
+
+        if (typeof data.body === 'string') {
+            post.body = data.body;
+        }
+
+        if (typeof data.published === 'boolean') {
+            post.published = data.published;
+        }
+
+        if (typeof data.title === 'string') {
+            post.title = data.title;
+        }
+
+        return post;
+    },
     updateUser(parent, { id, data }, { db }) {
         const user = db.users.find(user => user.id == id);
         if (!user) {
