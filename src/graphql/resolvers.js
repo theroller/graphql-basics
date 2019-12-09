@@ -1,19 +1,19 @@
 import uuidv4 from 'uuid/v4';
 
 // demo data
-const comments = [
+let comments = [
     { id: 1, author: 2, post: 4, text: 'it was a dark and stormy night' },
     { id: 2, author: 2, post: 4, text: 'frig yas all' },
     { id: 3, author: 3, post: 2, text: 'too much to do' },
     { id: 4, author: 1, post: 1, text: 'the sky was falling that night' },
 ];
-const posts = [
+let posts = [
     { id: 1, author: 1, published: true, title: 'doo wop', body: 'this is a body' },
     { id: 2, author: 3, published: false, title: 'foo bar', body: 'try me' },
     { id: 3, author: 3, published: true, title: 'kitty c', body: 'walk this way' },
     { id: 4, author: 2, published: true, title: 'shrug', body: 'tbd' },
 ];
-const users = [
+let users = [
     { id: 1, name: 'james', email: 'james@gmail.com' },
     { id: 2, name: 'frank', email: 'frank@gmail.com' },
     { id: 3, name: 'jillian', email: 'jillian@gmail.com' },
@@ -82,6 +82,27 @@ const Mutation = {
         users.push(user);
 
         return user;
+    },
+    deleteUser(parent, args) {
+        const userIndex = users.findIndex(user => user.id == args.id);
+        if (userIndex == -1) {
+            throw new Error(`user id ${args.id} not found`);
+        }
+
+        const deletedUser = users.splice(userIndex, 1)[0];
+
+        posts = posts.filter(post => {
+            const match = post.author == args.id;
+
+            if (match) {
+                comments = comments.filter(comment => comment.post != post.id);
+            }
+
+            return !match;
+        });
+        comments = comments.filter(comment => comment.author != args.id);
+
+        return deletedUser;
     },
 };
 

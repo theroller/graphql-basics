@@ -9,6 +9,7 @@ type Mutation {
     createComment(data: CreateCommentInput!): Comment!
     createPost(data: CreatePostInput!): Post!
     createUser(data: CreateUserInput!): User!
+    deleteUser(id: ID!): User!
 }
 
 input CreateCommentInput {
