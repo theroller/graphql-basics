@@ -6,7 +6,7 @@ const comments = [
     { id: 4, author: 1, post: 1, text: 'the sky was falling that night' },
 ];
 const posts = [
-    { id: 1, author: 1, published: true, title: 'doo wop', body: 'this is a body' },
+    { id: 1, author: 1, published: false, title: 'doo wop', body: 'this is a body' },
     { id: 2, author: 3, published: false, title: 'foo bar', body: 'try me' },
     { id: 3, author: 3, published: true, title: 'kitty c', body: 'walk this way' },
     { id: 4, author: 2, published: true, title: 'shrug', body: 'tbd' },

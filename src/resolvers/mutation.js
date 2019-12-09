@@ -28,7 +28,7 @@ const Mutation = {
         db.posts.push(post);
 
         if (post.published) {
-            pubsub.publish('post', { post });
+            pubsub.publish('post', { post: { mutation: 'CREATED', data: post } });
         }
 
         return post;
@@ -52,7 +52,7 @@ const Mutation = {
 
         return db.comments.splice(commentIndex, 1)[0];
     },
-    deletePost(parent, args, { db }) {
+    deletePost(parent, args, { db, pubsub }) {
         const postIndex = db.posts.findIndex(post => post.id == args.id);
         if (postIndex == -1) {
             throw new Error(`post id ${args.id} not found`);
@@ -60,6 +60,11 @@ const Mutation = {
 
         const deletedPost = db.posts.splice(postIndex, 1)[0];
         db.comments = db.comments.filter(comment => comment.post != args.id);
+
+        if (deletedPost.published) {
+            pubsub.publish('post', { post: { mutation: 'DELETED', data: deletedPost } });
+        }
+
         return deletedPost;
     },
     deleteUser(parent, args, { db }) {
@@ -95,11 +100,13 @@ const Mutation = {
 
         return comment;
     },
-    updatePost(parent, { id, data }, { db }) {
+    updatePost(parent, { id, data }, { db, pubsub }) {
         const post = db.posts.find(post => post.id == id);
         if (!post) {
             throw new Error(`post id ${id} not found`);
         }
+
+        const origPost = { ...post };
 
         if (typeof data.body === 'string') {
             post.body = data.body;
@@ -107,6 +114,14 @@ const Mutation = {
 
         if (typeof data.published === 'boolean') {
             post.published = data.published;
+
+            if (origPost.published && !data.published) {
+                pubsub.publish('post', { post: { mutation: 'DELETED', data: origPost } });
+            } else if (!origPost.published && data.published) {
+                pubsub.publish('post', { post: { mutation: 'CREATED', data: post } });
+            }
+        } else if (post.published) {
+            pubsub.publish('post', { post: { mutation: 'UPDATED', data: post } });
         }
 
         if (typeof data.title === 'string') {
