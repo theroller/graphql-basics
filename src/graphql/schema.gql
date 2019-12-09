@@ -6,9 +6,28 @@ type Comment {
 }
 
 type Mutation {
-    createComment(text: String!, author: ID!, post: ID!): Comment!
-    createPost(title: String!, body: String!, published: Boolean!, author: ID!): Post!
-    createUser(name: String!, email: String!, age: Int): User!
+    createComment(data: CreateCommentInput!): Comment!
+    createPost(data: CreatePostInput!): Post!
+    createUser(data: CreateUserInput!): User!
+}
+
+input CreateCommentInput {
+    text: String!
+    author: ID!
+    post: ID!
+}
+
+input CreatePostInput {
+    title: String!
+    body: String!
+    published: Boolean!
+    author: ID!
+}
+
+input CreateUserInput {
+    name: String!
+    email: String!
+    age: Int
 }
 
 type Post {

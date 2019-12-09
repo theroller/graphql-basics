@@ -47,38 +47,38 @@ const Query = {
 
 const Mutation = {
     createComment(parent, args) {
-        const author = users.find(x => x.id == args.author);
+        const author = users.find(user => user.id == args.data.author);
         if (!author) {
             throw new Error('author not found');
         }
-        const post = posts.find(x => x.id == args.post && x.published);
+        const post = posts.find(post => post.id == args.data.post && post.published);
         if (!post) {
             throw new Error('published post not found');
         }
 
-        const comment = { id: uuidv4(), ...args };
+        const comment = { id: uuidv4(), ...args.data };
         comments.push(comment);
 
         return comment;
     },
     createPost(parent, args) {
-        const author = users.find(x => x.id == args.author);
+        const author = users.find(user => user.id == args.data.author);
         if (!author) {
             throw new Error('author not found');
         }
 
-        const post = { id: uuidv4(), ...args };
+        const post = { id: uuidv4(), ...args.data };
         posts.push(post);
 
         return post;
     },
     createUser(parent, args) {
-        let user = users.find(x => x.email === args.email);
+        let user = users.find(user => user.email === args.data.email);
         if (user) {
             throw new Error('email taken');
         }
 
-        user = { id: uuidv4(), ...args };
+        user = { id: uuidv4(), ...args.data };
         users.push(user);
 
         return user;
@@ -87,28 +87,28 @@ const Mutation = {
 
 const Comment = {
     author(parent) {
-        return users.find(x => x.id == parent.author);
+        return users.find(user => user.id == parent.author);
     },
     post(parent) {
-        return posts.find(x => x.id == parent.post);
+        return posts.find(post => post.id == parent.post);
     },
 };
 
 const Post = {
     author(parent) {
-        return users.find(x => x.id == parent.author);
+        return users.find(user => user.id == parent.author);
     },
     comments(parent) {
-        return comments.filter(x => x.post == parent.id);
+        return comments.filter(comment => comment.post == parent.id);
     },
 };
 
 const User = {
     comments(parent) {
-        return comments.filter(x => x.author == parent.id);
+        return comments.filter(comment => comment.author == parent.id);
     },
     posts(parent) {
-        return posts.filter(x => x.author == parent.id);
+        return posts.filter(post => post.author == parent.id);
     },
 };
 
