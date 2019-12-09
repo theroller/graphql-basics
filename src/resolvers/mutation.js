@@ -18,7 +18,7 @@ const Mutation = {
 
         return comment;
     },
-    createPost(parent, args, { db }) {
+    createPost(parent, args, { db, pubsub }) {
         const author = db.users.find(user => user.id == args.data.author);
         if (!author) {
             throw new Error('author not found');
@@ -26,6 +26,10 @@ const Mutation = {
 
         const post = { id: uuidv4(), ...args.data };
         db.posts.push(post);
+
+        if (post.published) {
+            pubsub.publish('post', { post });
+        }
 
         return post;
     },
